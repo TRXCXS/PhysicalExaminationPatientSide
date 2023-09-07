@@ -40,7 +40,7 @@ export default {
 
         function toHospital(){
             //验证用户是否有未归档的报告
-            axios.post('orders/getOrdersByUserIdByState',getSessionStorage('users'))
+            axios.post('order/unarchived-order-count',getSessionStorage('users'))
           .then((response)=>{
              if(response.data>0){
                 alert("已经预约了")

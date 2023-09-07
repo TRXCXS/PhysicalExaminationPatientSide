@@ -6,10 +6,11 @@ import Appointment from '../views/Appointment.vue'
 import ReportList from '../views/ReportList.vue'
 import Personal from '../views/Personal.vue'
 import Hospital from '../views/Hospital.vue'
-
+import Setmeal from '../views/Setmeal.vue'
+import Selectdate  from '../views/Selectdate.vue'
 const routes = [
   {
-    path: '/',
+    path: '/', 
     name: 'home',
     component: Login
   },
@@ -47,6 +48,16 @@ const routes = [
     path: '/hospital',
     name:'Hospital',
     component:Hospital
+  },
+  {
+    path: '/setmeal',
+    name:'Setmeal',
+    component:Setmeal
+  },
+  {
+    path: '/selectdate',
+    name:'Selectdate',
+    component:Selectdate
   }
 ]
 

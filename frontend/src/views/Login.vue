@@ -66,9 +66,10 @@ export default {
             alert('密码不能为空');
             return;
           }
+          console.log(state.users)
 
           //2.访问服务端接口，获取用户信息
-          axios.post('users/userLogin',state.users)
+          axios.post('user/login',state.users)
           .then((response)=>{
               //拿到响应数据之后
             // console.log(response.data)

@@ -10,7 +10,7 @@
 
         <ul class="hospital">
             <li v-for="hp in hospitalArr" :key="hp.hpId">
-                <h3 onclick="location.href='setmeal.html'">
+                <h3 @click="toSetmeal(hp.hpId)">
                     {{hp.name}}
                     <i class="fa fa-angle-right"></i>
                 </h3>
@@ -76,7 +76,7 @@ export default {
         init();
 
         function init(){
-            axios.post('hospital/getHospitalByState',{state:1})
+            axios.post('hospital/getHospitalsByState',{state:1})
           .then((response)=>{
             state.hospitalArr=response.data;
             console.log(state.hospitalArr)
@@ -86,10 +86,18 @@ export default {
               console.log(error)
           });
         } 
-        
+
+        //跳转到选择套餐界面
+        function toSetmeal(hpId){
+          router.push({
+            path:'/setmeal',
+            query:({hpId: hpId})
+          })
+        }
 
         return{
-            ...toRefs(state)
+            ...toRefs(state),
+            toSetmeal
         }
 
     },

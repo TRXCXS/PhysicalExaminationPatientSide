@@ -82,12 +82,10 @@ export default {
         //定义需要的函数
         function isExists(){
             //console.log(state.users.userId)
-            axios.post('users/isExists',state.users)
+            axios.post('user/user-exists',state.users)
           .then((response)=>{
               //拿到响应数据之后
-            // console.log(response.data)
              let u=response.data;
-
               if(u=='NO'){
                alert('手机号已经注册');
                state.users.userId='';
@@ -126,7 +124,7 @@ export default {
           }
          
           //请求服务端接口插入数据到用户表
-          axios.post('users/register',state.users)
+          axios.post('user/register',state.users)
           .then((response)=>{
               //拿到响应数据之后
             // console.log(response.data)
