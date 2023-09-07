@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.tijian.mapper.SetmealMapper">
+
+    <resultMap id="SetmealAndSetmealdetailed" type="Setmeal">
+        <id property="smId" column="smId"></id>
+        <result property="name" column="name"></result>
+        <result property="type" column="type"></result>
+        <result property="price" column="price"></result>
+        <collection property="setmealdetailedList"
+                    ofType="Setmealdetailed"
+                    select="edu.scau.tijian.mapper.SetmealdetailedMapper.getSetmealdetailedBySmId"
+                    column="smId"></collection>
+    </resultMap>
+<!--    public List<Setmeal> getSetmealByType(Integer type);-->
+    <select id="getSetmealByType"
+            parameterType="Integer"
+            resultMap="SetmealAndSetmealdetailed">
+        SELECT *
+        FROM setmeal
+        WHERE type = #{type}
+        ORDER BY smId
+    </select>
+
+</mapper>
