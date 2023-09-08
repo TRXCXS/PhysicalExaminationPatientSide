@@ -86,7 +86,7 @@ export default {
           .then((response)=>{
               //拿到响应数据之后
              let u=response.data;
-              if(u=='NO'){
+              if(u=='YES'){
                alert('手机号已经注册');
                state.users.userId='';
               }
