@@ -114,7 +114,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /*********************** 总容器 ***********************/
 .wrapper{
     width: 100%;
@@ -143,6 +143,40 @@ header .fa{
     font-size: 8vw;
 }
 
+/*********************** footer ***********************/
+footer{
+    width: 100%;
+    height: 14.2vw;
+    box-sizing: border-box;
+    border-top: solid 1px #E9E9E9;
+    background-color: #FFF;
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+footer ul{
+    width: 100%;
+    height: 14.2vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+footer ul li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 3vw;
+    color: #999;
+
+    user-select: none;
+    cursor: pointer;
+}
+footer ul li .fa{
+    font-size: 5vw;
+}
 
 /*********************** common样式 ***********************/
 .top-ban{
