@@ -9,6 +9,8 @@ import Hospital from '../views/Hospital.vue'
 import Setmeal from '../views/Setmeal.vue'
 import Selectdate  from '../views/Selectdate.vue'
 import ConfirmOrder from '../views/ConfirmOrder.vue'
+import AppointmentSuccess from '../views/AppointmentSuccess.vue'
+import AppointmentList from '../views/AppointmentList.vue'
 
 const routes = [
   {
@@ -65,6 +67,16 @@ const routes = [
     path: '/confirmOrder',
     name:'ConfirmOrder',
     component:ConfirmOrder
+  },
+  {
+    path: '/appointmentSuccess',
+    name:'AppointmentSuccess',
+    component:AppointmentSuccess
+  },
+  {
+    path: '/appointmentList',
+    name:'AppointmentList',
+    component:AppointmentList
   }
 ]
 

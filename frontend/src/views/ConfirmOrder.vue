@@ -15,19 +15,19 @@
             <table>
                 <tr>
                     <td>姓名:</td>
-                    <td>黄药师</td>
+                    <td>{{ users.realName }}</td>
                 </tr>
                 <tr>
                     <td>证件号码:</td>
-                    <td>210106587452156897</td>
+                    <td>{{ users.identityCard }}</td>
                 </tr>
                 <tr>
                     <td>出生日期:</td>
-                    <td>1999-10-23</td>
+                    <td>{{ users.birthday.split('-')[0] }}年{{ users.birthday.split('-')[1] }}月{{ users.birthday.split('-')[2] }}日</td>
                 </tr>
                 <tr>
                     <td>手机号码:</td>
-                    <td>15698745214</td>
+                    <td>{{ users.userId }}</td>
                 </tr>
             </table>
             <div class="title">
@@ -35,7 +35,7 @@
             </div>
             <table>
                 <tr>
-                    <td>2021年11月28日</td>
+                    <td>{{ selectDay.split('-')[0] }}年{{ selectDay.split('-')[1] }}月{{ selectDay.split('-')[2] }}日</td>
                 </tr>
             </table>
             <div class="title">
@@ -43,23 +43,23 @@
             </div>
             <table>
                 <tr>
-                    <td colspan="2">沈阳熙康云医院-和平院区</td>
+                    <td colspan="2">{{ hospital.name }}</td>
                 </tr>
                 <tr>
                     <td>营业时间:</td>
-                    <td>周一至周五 7:30-15:30 （周六截止12:00）</td>
+                    <td>{{ hospital.businessHours }}</td>
                 </tr>
                 <tr>
                     <td>采血截止:</td>
-                    <td>采血截止时间10:30</td>
+                    <td>{{ hospital.deadline }}</td>
                 </tr>
                 <tr>
                     <td>机构电话:</td>
-                    <td>98745214</td>
+                    <td>{{ hospital.telephone }}</td>
                 </tr>
                 <tr>
                     <td>机构地址:</td>
-                    <td>文体路7号世贸商都（五里河茶城）四楼西区</td>
+                    <td>{{ hospital.address }}</td>
                 </tr>
             </table>
             <div class="title">
@@ -67,18 +67,18 @@
             </div>
             <table>
                 <tr>
-                    <td>普通男士客户-基础套餐</td>
+                    <td>{{ setmeal.name }}</td>
                 </tr>
             </table>
         </section>
         
         <div class="bottom-btn">
-            <div class="first">实付款: <span>￥350</span></div>
-            <div class="last" onclick="location.href='appointmentsuccess.html'">确认支付</div>
+            <div class="first">实付款: <span>￥{{ users.type==2?0:setmeal.price }}</span></div>
+            <div class="last" @click="toSaveOrders">确认支付</div>
         </div>
 
         <div class="bottom-ban"></div>
-        <footer>
+        <!-- <footer>
             <ul>
                 <li onclick="location.href='index.html'">
                     <i class="fa fa-home"></i>
@@ -97,17 +97,103 @@
                     <p>我</p>
                 </li>
             </ul>
-        </footer>
+        </footer> -->
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
+import {reactive,shallowReactive,toRefs} from 'vue'
+import {useRouter,useRoute} from 'vue-router'
+import axios from 'axios'
+axios.defaults.baseURL='http://localhost:8080/tijian'
+import Footer from '@/components/Footer.vue';
+import { routeLocationKey } from 'vue-router';
+import { getSessionStorage } from '@/common';
 export default {
+    setup(){ 
+        //声明需要的数据变量
+        const router=useRouter();
+        const route=useRoute();
 
+
+        //定义当前日期
+        const currentCalendar = new Date();
+
+        const state=reactive({ 
+            hpId:route.query.hpId,
+            smId:route.query.smId,
+            selectDay:route.query.selectDay,
+            users:getSessionStorage('users'),
+            hospital:{
+              
+            },
+            setmeal(){
+
+            }        
+        });
+
+        init;
+
+        function init(){ 
+          
+          axios.post('hospital/getHospitalByHpId',{hpId:state.hpId})
+          .then((response)=>{
+            console.log(response.data)
+
+            state.hospital = response.data
+
+          }).catch((error)=>{
+              //出错之后
+              console.log(error)
+          });
+
+          axios.post('setmeal/getSetmealById',{smId:state.smId})
+          .then((response)=>{
+            state.setmeal = response.data
+          }).catch((error)=>{
+              //出错之后
+              console.log(error)
+          });
+
+         
+        }
+     
+        function toSaveOrders(){
+          //订单数据持久化到数据库
+          axios.post('orders/saveOrders',{
+            orderDate:state.selectDay,
+            userId:state.users.userId,
+            hpId:state.hpId,
+            smId:state.smId
+          })
+          .then((response)=>{
+            if (response.data == 1 ){
+              router.push('/appointmentSuccess')
+            }else{
+              alert('预约失败')
+            }
+            
+          }).catch((error)=>{
+              //出错之后
+              console.log(error)
+          });
+        
+        }
+
+        return{
+          ...toRefs(state),
+          init,
+          toSaveOrders
+        }
+    },
+    components:{
+      Footer
+    }
 }
 </script>
 
-<style>
+<style scoped>
 /*********************** 总容器 ***********************/
 .wrapper{
     width: 100%;

@@ -96,12 +96,18 @@ export default {
         } 
 
         function selectDay(index){
+
+            //验证当前选中日期是否为可预约日期
+            if(state.calendarArr[index].remainder==nullstate.calendarArr[index].remainder==0){
+                return;
+            }
+
             //把数据拿到存起来
             state.selectDay=state.calendarArr[index].ymd;
 
             //添加背景色
             for(let i =0;i<state.calendarArr.length;i++){
-                state.calendarArr[i].isSelected = 0;
+                state.calendarArr[i].isSelected = false;
             }
             state.calendarArr[index].isSelected = 1;
         }
@@ -129,7 +135,18 @@ export default {
         }
 
         function toConfirmOrder(){
-            router.push('/confirmOrder')
+            if (state.selectDay==''){
+                alert('请先选中预约日期');
+                return;
+            }
+            router.push({
+                path:'/confirmOrder',
+                query:{
+                    hpId:state.hpId,
+                    smId:state.smId,
+                    selectDay:state.selectDay
+                }
+            })
         }
 
         return{
@@ -146,7 +163,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /*********************** 总容器 ***********************/
 .wrapper{
     width: 100%;
