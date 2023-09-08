@@ -11,7 +11,7 @@
         <ul class="setmeal">
             <li v-for="(setmeal,index) in setmealArr" :key="setmeal.smId" >
                 <div class="item">
-                    <div class="item-left" @click="toSelectdate()">
+                    <div class="item-left" @click="toSelectdate(setmeal.smId)">
                         <h3>{{setmeal.type == 1?'男士套餐':'女士套餐'}}</h3>
                         <p>{{ setmeal.name }}</p>
                     </div>
@@ -50,7 +50,7 @@
 <script>
 //导入需要的基本工具
 import {reactive,toRefs} from 'vue'
-import {useRouter} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
 import axios from 'axios'
 axios.defaults.baseURL='http://localhost:8080/tijian'
 import Footer from '@/components/Footer.vue';
@@ -60,8 +60,10 @@ export default {
     setup(){ 
         //声明需要的数据变量
         const router=useRouter();
+        const route=useRoute();
         const state=reactive({
-          setmealArr:[]          
+          setmealArr:[],
+          hpId: route.query.hpId          
         });
 
         //在页面渲染的时候拉取套餐数据
@@ -87,8 +89,14 @@ export default {
           state.setmealArr[index].isShow=!state.setmealArr[index].isShow;
         }
 
-        function toSelectdate(){
-          router.push('/selectdate')
+        function toSelectdate(smId){
+          router.push({
+            path:'/selectdate',
+            query:{
+                hpId:state.hpId,
+                smId:smId
+            }
+          })  
         }
 
         return{

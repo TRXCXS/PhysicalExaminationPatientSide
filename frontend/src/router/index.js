@@ -8,6 +8,8 @@ import Personal from '../views/Personal.vue'
 import Hospital from '../views/Hospital.vue'
 import Setmeal from '../views/Setmeal.vue'
 import Selectdate  from '../views/Selectdate.vue'
+import ConfirmOrder from '../views/ConfirmOrder.vue'
+
 const routes = [
   {
     path: '/', 
@@ -58,6 +60,11 @@ const routes = [
     path: '/selectdate',
     name:'Selectdate',
     component:Selectdate
+  },
+  {
+    path: '/confirmOrder',
+    name:'ConfirmOrder',
+    component:ConfirmOrder
   }
 ]
 

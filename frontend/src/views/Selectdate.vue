@@ -10,9 +10,9 @@
 
         <section>
             <div class="date-box">
-                <i class="fa fa-caret-left"></i>
-                <p>2022年1月</p>
-                <i class="fa fa-caret-right"></i>
+                <i class="fa fa-caret-left" @click="subtractMonth"></i>
+                <p>{{year}}年{{ month }}月</p>
+                <i class="fa fa-caret-right" @click="addMonth"></i>
             </div>
             <table>
                 <tr>
@@ -26,160 +26,19 @@
                 </tr>
             </table>
             <ul>
-                <li>
-                    <p></p>
-                    <p></p>
-                </li>
-                <li>
-                    <p></p>
-                    <p></p>
-                </li>
-                <li>
-                    <p></p>
-                    <p></p>
-                </li>
-                <li>
-                    <p></p>
-                    <p></p>
-                </li>
-                <li>
-                    <p></p>
-                    <p></p>
-                </li>
-                <li>
-                    <p></p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>1</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>2</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>3</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>4</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>5</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>6</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>7</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>8</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>9</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>10</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>11</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>12</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>13</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>14</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>15</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>16</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p>17</p>
-                    <p></p>
-                </li>
-                <li>
-                    <p class="fontcolor pselect">18</p>
-                    <p>余56</p>
-                </li>
-                <li>
-                    <p class="fontcolor">19</p>
-                    <p>余66</p>
-                </li>
-                <li>
-                    <p class="fontcolor">20</p>
-                    <p>余123</p>
-                </li>
-                <li>
-                    <p class="fontcolor">21</p>
-                    <p>余178</p>
-                </li>
-                <li>
-                    <p class="fontcolor">22</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">23</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">24</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">25</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">26</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">27</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">28</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">29</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">30</p>
-                    <p>余200</p>
-                </li>
-                <li>
-                    <p class="fontcolor">31</p>
-                    <p>余200</p>
+                <li v-for="(calendar,index) in calendarArr" :key="calendar.ymd">
+                    <p :class="{
+                            fontcolor:calendar.remainder!=null&&calendar.remainder>0,
+                            pselect:calendar.isSelected==1
+                        }" @click="selectDay(index)">{{ calendar.day }}</p>
+                    <p>{{ calendar.remainder!=null&&calendar.remainder!=0?"余"+calendar.remainder:""}}</p>
                 </li>
             </ul>
         </section>
 
         <div class="bottom-btn">
             <div></div>
-            <div onclick="location.href='confirmorder.html'">下一步</div>
+            <div @click="toConfirmOrder">下一步</div>
         </div>
         
         <div class="bottom-ban"></div>
@@ -188,15 +47,102 @@
 </template>
 
 <script>
+//导入需要的基本工具
+import {reactive,toRefs} from 'vue'
+import {useRouter,useRoute} from 'vue-router'
+import axios from 'axios'
+axios.defaults.baseURL='http://localhost:8080/tijian'
 import Footer from '@/components/Footer.vue';
+import { routeLocationKey } from 'vue-router';
+import { getSessionStorage } from '@/common';
 export default {
-    setup(){
+    setup(){ 
+        //声明需要的数据变量
+        const router=useRouter();
+        const route=useRoute();
 
+
+        //定义当前日期
+        const currentCalendar = new Date();
+
+        const state=reactive({
+            calendarArr:[],
+            hpId:route.query.hpId,
+            smId:route.query.smId,
+            year:currentCalendar.getFullYear(),   //四位年份
+            month:currentCalendar.getMonth()+1,  //0-11
+            selectDay:''        
+        });
+
+        //在页面渲染的时候拉取预约日历数据
+        init();
+
+        function init(){
+            axios.post('calendar/getCalendareByYearByMonthByHpId',{hpId:state.hpId,year:state.year,month:state.month})
+          .then((response)=>{
+            console.log(response)
+            state.calendarArr = response.data;
+            for(let i =0;i<state.calendarArr.length;i++){
+                if (state.calendarArr[i].ymd!=null){
+                   state.calendarArr[i].day = parseInt(state.calendarArr[i].ymd. substring(8)) 
+                }
+                
+            }
+              
+          }).catch((error)=>{
+              //出错之后
+              console.log(error)
+          });
+        } 
+
+        function selectDay(index){
+            //把数据拿到存起来
+            state.selectDay=state.calendarArr[index].ymd;
+
+            //添加背景色
+            for(let i =0;i<state.calendarArr.length;i++){
+                state.calendarArr[i].isSelected = 0;
+            }
+            state.calendarArr[index].isSelected = 1;
+        }
+
+
+        //切换月份
+        function subtractMonth(){
+            if (state.month == 1){
+                state.year--;
+                state.month=12;
+            }else{
+                state.month--;
+            }
+            init();
+        }
+
+        function addMonth(){
+            if (state.month == 12){
+                state.year++;
+                state.month=1;
+            }else{
+                state.month++;
+            }
+            init();
+        }
+
+        function toConfirmOrder(){
+            router.push('/confirmOrder')
+        }
+
+        return{
+            ...toRefs(state),
+            selectDay,
+            subtractMonth,
+            addMonth,
+            toConfirmOrder
+        }
     },
     components:{
-        Footer
+      Footer
     }
-
 }
 </script>
 
