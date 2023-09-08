@@ -1,0 +1,2 @@
+# PhysicalExaminationPatientSide
+实训项目病人端
