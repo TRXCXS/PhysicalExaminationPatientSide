@@ -130,7 +130,7 @@ export default {
             // console.log(response.data)
              let u=response.data;
 
-              if(u==1){
+              if(u=='Success'){
                alert('注册成功');
                router.push('/login');
               }else{
