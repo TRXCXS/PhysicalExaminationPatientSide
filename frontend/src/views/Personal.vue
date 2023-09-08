@@ -92,7 +92,6 @@ export default {
         const router=useRouter();
         const state=reactive({
           users:getSessionStorage('users')
-            
         });
 
         function out(){
@@ -225,6 +224,7 @@ section .info .content div p:last-child{
 section ul{
     width: 86vw;
     margin: 0 auto;
+    display: flex;
 }
 section ul li{
     width: 100%;
