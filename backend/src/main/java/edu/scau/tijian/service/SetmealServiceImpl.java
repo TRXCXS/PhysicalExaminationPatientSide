@@ -14,10 +14,14 @@ import java.util.List;
 public class SetmealServiceImpl implements SetmealService {
     private final SetmealMapper setmealMapper;
 
-
     @Override
     public List<Setmeal> getSetmealByType(Integer type) {
         return setmealMapper.getSetmealByType(type);
 
+    }
+
+    @Override
+    public Setmeal getSetmealBySmId(Integer smId) {
+        return setmealMapper.getSetmealBySmId(smId);
     }
 }

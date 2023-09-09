@@ -17,8 +17,12 @@ public class SetmealController {
 
     @PostMapping("/getSetmealByType")
     public List<Setmeal> getSetmealByType(@RequestBody Setmeal setmeal) {
-        Logger logger = LoggerFactory.getLogger(SetmealController.class);
-        logger.info(setmeal.getType().toString());
         return setmealService.getSetmealByType(setmeal.getType());
     }
+
+    @RequestMapping("/getSetmealById")
+    public Setmeal getSetmealBySmId(@RequestBody Setmeal setmeal) {
+        return setmealService.getSetmealBySmId(setmeal.getSmId());
+    }
+
 }

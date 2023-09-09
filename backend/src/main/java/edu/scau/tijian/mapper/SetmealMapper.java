@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface SetmealMapper {
-
-
     List<Setmeal> getSetmealByType(Integer type);
+    @Select("SELECT * FROM setmeal WHERE smId=#{smId}")
+    Setmeal getSetmealBySmId(Integer smId);
 }

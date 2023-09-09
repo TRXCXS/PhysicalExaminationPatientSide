@@ -133,11 +133,11 @@ export default {
             }        
         });
 
-        init;
+        init();
 
         function init(){ 
           
-          axios.post('hospital/getHospitalByHpId',{hpId:state.hpId})
+          axios.post('hospital/getHospitalById',{hpId:state.hpId})
           .then((response)=>{
             console.log(response.data)
 
