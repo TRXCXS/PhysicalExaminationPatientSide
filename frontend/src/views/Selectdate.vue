@@ -98,7 +98,7 @@ export default {
         function selectDay(index){
 
             //验证当前选中日期是否为可预约日期
-            if(state.calendarArr[index].remainder==nullstate.calendarArr[index].remainder==0){
+            if(state.calendarArr[index].remainder==null||state.calendarArr[index].remainder==0){
                 return;
             }
 
