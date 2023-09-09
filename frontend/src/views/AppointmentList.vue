@@ -11,7 +11,7 @@
             <li v-for="orders in ordersArr" :key="orders.orderId">
                 <div class="left">
                     <p>{{convert(orders.orderDate)}}</p>
-                    <p>{{forders.setmeal.name}}</p>
+                    <p>{{orders.setmeal.name}}</p>
                 </div>
                 <div class="right" @click="toCancel(orders.orderId)" v-if="currDate<orders.orderDate">
                     取消预约 
