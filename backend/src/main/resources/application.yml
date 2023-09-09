@@ -17,4 +17,4 @@ mybatis:
 logging:
   level:
     org.springframework: info
-    edu.scau.tijian.mapper: info
+    edu.scau.tijian.mapper: debug

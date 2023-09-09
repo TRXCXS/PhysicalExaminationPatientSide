@@ -3,6 +3,7 @@ package edu.scau.tijian.mapper;
 import edu.scau.tijian.dto.CalendarResponseDto;
 import edu.scau.tijian.dto.OrdersMapperDto;
 import edu.scau.tijian.pojo.Orders;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -14,7 +15,7 @@ import java.util.List;
 @Repository
 public interface OrderMapper {
 
-    @Select("SELECT COUNT(1) " +
+    @Select("SELECT COUNT(*) " +
             "FROM orders " +
             "WHERE state = 1 AND userId = #{userId}")
     Integer getUnarchivedOrderCountByUserId(String userId);
@@ -28,4 +29,9 @@ public interface OrderMapper {
             "#{smId}, 1" +
             ")")
     int saveOrders(Orders orders);
+
+    List<Orders> listOrdersByUserByState(Orders orders);
+
+    @Delete("DELETE FROM orders WHERE orderId=#{orderId}")
+    int deleteOrderByOrderId(int orderId);
 }

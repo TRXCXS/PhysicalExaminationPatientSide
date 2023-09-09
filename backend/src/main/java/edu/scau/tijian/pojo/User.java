@@ -13,4 +13,15 @@ public class User {
     private String identityCard;
     private String birthday;
     private Integer userType;
+
+    @Override
+    public String toString() {
+        return userId + '\n' +
+                password + '\n' +
+                realName + '\n' +
+                Integer.toString(sex) + '\n' +
+                identityCard + '\n' +
+                birthday + '\n' +
+                Integer.toString(userType);
+    }
 }

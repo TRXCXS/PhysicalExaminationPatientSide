@@ -3,6 +3,25 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.scau.tijian.mapper.OrderMapper">
 
+<!--    List<Orders> listOrdersByUserByState(Orders orders);-->
+    <select id="listOrdersByUserByState" parameterType="Orders" resultMap="ordersAndSetmeal">
+        SELECT *
+        FROM orders
+        WHERE userId=#{userId} AND state=#{state}
+        ORDER BY orderDate DESC
+    </select>
+
+    <resultMap id="ordersAndSetmeal" type="Orders">
+        <id column="orderId" property="orderId"/>
+        <result column="orderDate" property="orderDate"/>
+        <result column="userId" property="userId"/>
+        <result column="hpId" property="hpId"/>
+        <result column="smId" property="smId"/>
+        <result column="state" property="state"/>
+        <association property="setmeal" column="smId" javaType="Setmeal"
+        select="edu.scau.tijian.mapper.SetmealMapper.getSetmealBySmId"></association>
+    </resultMap>
+
 	<select id="listOrdersAppointmentNumber" parameterType="OrdersMapperDto" resultType="CalendarResponseDto">
 	    <foreach collection="list" item="dto" separator="union">
 	        SELECT #{dto.date} ymd, COUNT(*) existing

@@ -13,4 +13,5 @@ public class Orders {
     private Integer smId;
     private Integer state;
 
+    private Setmeal setmeal;
 }

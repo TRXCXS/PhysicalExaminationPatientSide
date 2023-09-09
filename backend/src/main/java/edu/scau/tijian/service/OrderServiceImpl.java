@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -20,5 +22,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int saveOrders(Orders orders) {
         return orderMapper.saveOrders(orders);
+    }
+
+    @Override
+    public List<Orders> listOrdersByUserByState(Orders orders) {
+        return orderMapper.listOrdersByUserByState(orders);
+    }
+
+    @Override
+    public int deleteOrderByOrderId(int orderId) {
+        return orderMapper.deleteOrderByOrderId(orderId);
     }
 }
