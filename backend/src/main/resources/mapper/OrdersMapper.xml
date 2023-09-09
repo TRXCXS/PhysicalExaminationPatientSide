@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.neusoft.tijian.mapper.OrdersMapper">
+<mapper namespace="edu.scau.tijian.mapper.OrderMapper">
 
 	<select id="listOrdersAppointmentNumber" parameterType="OrdersMapperDto" resultType="CalendarResponseDto">
 	    <foreach collection="list" item="dto" separator="union">
