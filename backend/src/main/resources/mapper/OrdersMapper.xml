@@ -7,7 +7,7 @@
     <select id="listOrdersByUserByState" parameterType="Orders" resultMap="ordersAndSetmeal">
         SELECT *
         FROM orders
-        WHERE userId=#{userId} AND state=#{state}
+        WHERE userId=#{userId}
         ORDER BY orderDate DESC
     </select>
 
