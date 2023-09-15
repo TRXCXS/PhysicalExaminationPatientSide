@@ -11,6 +11,7 @@ import Selectdate  from '../views/Selectdate.vue'
 import ConfirmOrder from '../views/ConfirmOrder.vue'
 import AppointmentSuccess from '../views/AppointmentSuccess.vue'
 import AppointmentList from '../views/AppointmentList.vue'
+import Report from '../views/Report.vue'
 
 const routes = [
   {
@@ -77,6 +78,11 @@ const routes = [
     path: '/appointmentList',
     name:'AppointmentList',
     component:AppointmentList
+  },
+  {
+    path: '/report',
+    name:'Report',
+    component:Report
   }
 ]
 
