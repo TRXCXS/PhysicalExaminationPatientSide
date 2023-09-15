@@ -12,6 +12,11 @@
             <tr>
                 <td>手机号码</td>
                 <td><input type="text" v-model="users.userId" placeholder="请输入手机号码" @blur="isExists"></td>
+                <td><button>发送验证码</button></td>
+            </tr>
+            <tr>
+                <td>验证码</td>
+                <td><input type="text" v-model="users.code" placeholder="请输入验证码"></td>
             </tr>
             <tr>
                 <td>真实姓名</td>
@@ -74,7 +79,8 @@ export default {
             sex:'1',
             identityCard:'',
             birthday:'',
-            userType:'1'
+            userType:'1',
+            code:''
           },
            confirmPassword:'' 
         });
@@ -116,6 +122,10 @@ export default {
           }
           if(state.users.realName==''){
             alert('真实姓名不能为空');
+            return;
+          }
+          if(state.users.code==''){
+            alert('验证码不能为空');
             return;
           }
           if(state.users.password!=state.confirmPassword){
