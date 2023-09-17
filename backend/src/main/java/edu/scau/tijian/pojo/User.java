@@ -1,10 +1,10 @@
 package edu.scau.tijian.pojo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class User {
     private String userId;
     private String password;
@@ -13,6 +13,10 @@ public class User {
     private String identityCard;
     private String birthday;
     private Integer userType;
+
+    public User(String userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {

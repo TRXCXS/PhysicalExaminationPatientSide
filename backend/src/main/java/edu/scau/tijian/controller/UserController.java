@@ -1,10 +1,14 @@
 package edu.scau.tijian.controller;
 
+import edu.scau.tijian.dto.LoginWithCodeRequest;
 import edu.scau.tijian.pojo.User;
+import edu.scau.tijian.service.AliyunSmsService;
 import edu.scau.tijian.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/user")
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private final UserService userService;
+    @Autowired
+    private final AliyunSmsService aliyunSmsService;
 
     @RequestMapping("/hello")
     public String hello() {
@@ -32,6 +38,16 @@ public class UserController {
     @PostMapping("/register")
     public String saveUser(@RequestBody User user) throws Exception {
         return userService.saveUser(user) == 1 ? "Success" : "Failure";
+    }
+
+    @GetMapping("/sendCode")
+    public String sendCode(@RequestParam String phoneNumber) throws ExecutionException, InterruptedException {
+        return aliyunSmsService.sendAndSaveSmsCode(phoneNumber);
+    }
+
+    @PostMapping("/loginWithCode")
+    public User loginWithCode(@RequestBody LoginWithCodeRequest loginWithCodeRequest) throws Exception {
+        return userService.loginWithCode(loginWithCodeRequest);
     }
 
 }
