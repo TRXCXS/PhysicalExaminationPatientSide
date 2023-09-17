@@ -58,7 +58,7 @@
         </div>
 
         <div class="nav-content-item" v-if="divVisible == 'detail'">
-            <div class="item" v-for="ci in cidlReportArr" :key="ci.cirId">
+            <div class="item" v-for="ci in cireportArr" :key="ci.cirId">
                 <div class="title">{{ci.ciName}}</div>
                 <ul>
                     <li v-for="cdr in ci.detailedreportList" :key="cdr.cidrId">
@@ -69,7 +69,7 @@
                             </div>
                             <div class="right">
                                 <p>{{cdr.value}}{{ cdr.unit }}</p>
-                                <p>正常值范围：{{cdr.normalValueString}}</p>
+                                <p v-if="cdr.normalValueString != null">正常值范围：{{cdr.normalValueString}}</p>
                             </div>
                         </div>
                         <div class="indications-type-4" v-if="cdr.type == 4">
@@ -119,7 +119,7 @@ export default {
 
         function init(){
 
-        axios.post('overallResult/getOverallResultByoOrderId',{orderId:route.query.orderId})
+        axios.post('overallResult/getOverallResultByOrderId',{orderId:route.query.orderId})
           .then((response)=>{
             state.overallResultArr=response.data
             console.log(overallResultArr)
@@ -145,15 +145,23 @@ export default {
           });
 
 
-          axios.post('cireport/getCireport',{orderId:route.query.orderId})
-            .then((response)=>{
-                state.cireportArr=response.data;
-                console.log('1');
-                console.log(state.cidlReportArr);
-                console.log('2'); 
-            }).catch((error)=>{
-                console.log(error) 
-            });
+        //   axios.post('cireport/getCireport',{orderId:route.query.orderId})
+        //     .then((response)=>{
+        //         state.cireportArr=response.data;
+        //         console.log('1');
+        //         console.log(state.cidlReportArr);
+        //         console.log('2'); 
+        //     }).catch((error)=>{
+        //         console.log(error) 
+        //     });
+        axios.post('cidetailedReport/listCidetailedReportByOrderId',{orderId:route.query.orderId})
+          .then((response)=>{
+            state.cireportArr=response.data;
+            
+          }).catch((error)=>{
+              console.log(error)
+          });
+
         }
 
         //界面切换事件
