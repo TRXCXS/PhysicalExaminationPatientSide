@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
+    public User login(@RequestBody User user) throws Exception {
         return userService.login(user);
     }
 
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String saveUser(@RequestBody User user) {
+    public String saveUser(@RequestBody User user) throws Exception {
         return userService.saveUser(user) == 1 ? "Success" : "Failure";
     }
 
