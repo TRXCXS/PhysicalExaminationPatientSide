@@ -12,4 +12,6 @@ public interface OrderService {
     List<Orders> listOrdersByUserByState(Orders orders);
 
     int deleteOrderByOrderId(int orderId);
+
+    List<Orders> listOrdersWithHospitalByUserByState(Orders orders);
 }

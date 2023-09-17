@@ -34,4 +34,6 @@ public interface OrderMapper {
 
     @Delete("DELETE FROM orders WHERE orderId=#{orderId}")
     int deleteOrderByOrderId(int orderId);
+
+    List<Orders> listOrdersWithHospitalByUserByState(Orders orders);
 }

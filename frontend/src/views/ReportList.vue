@@ -67,7 +67,7 @@ export default {
 
         function convert(datestr){
           let arr=datestr.split('-');
-          return arr[o]+'年'+arr[1]+'月'+arr[2]+'日';
+          return arr[0]+'年'+arr[1]+'月'+arr[2]+'日';
         }
 
         //跳转报告页面

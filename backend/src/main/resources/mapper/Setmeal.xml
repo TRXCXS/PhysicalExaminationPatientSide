@@ -24,4 +24,6 @@
         ORDER BY smId
     </select>
 
+
+
 </mapper>

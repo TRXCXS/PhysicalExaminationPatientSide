@@ -33,4 +33,9 @@ public class OrderServiceImpl implements OrderService {
     public int deleteOrderByOrderId(int orderId) {
         return orderMapper.deleteOrderByOrderId(orderId);
     }
+
+    @Override
+    public List<Orders> listOrdersWithHospitalByUserByState(Orders orders) {
+        return orderMapper.listOrdersWithHospitalByUserByState(orders);
+    }
 }

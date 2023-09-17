@@ -42,4 +42,9 @@ public class OrderController {
     public int cancelOrders(@RequestBody Orders orders) {
         return orderService.deleteOrderByOrderId(orders.getOrderId());
     }
+
+    @RequestMapping("/listCireport")
+    public List<Orders> listOrdersWithHospitalByUserByState(@RequestBody Orders orders) {
+        return orderService.listOrdersWithHospitalByUserByState(orders);
+    }
 }

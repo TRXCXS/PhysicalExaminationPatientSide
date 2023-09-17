@@ -7,7 +7,7 @@
     <select id="listOrdersByUserByState" parameterType="Orders" resultMap="ordersAndSetmeal">
         SELECT *
         FROM orders
-        WHERE userId=#{userId}
+        WHERE userId=#{userId} AND state=#{state}
         ORDER BY orderDate DESC
     </select>
 
@@ -38,12 +38,20 @@
         <result column="smId" property="smId"/>
         <result column="state" property="state"/>
         <association property="setmeal" javaType="Setmeal"
-            select="com.neusoft.tijian.mapper.SetmealMapper.getSetmealById" column="smId"></association>
+            select="edu.scau.tijian.mapper.SetmealMapper.getSetmealBySmId" column="smId"></association>
         <association property="hospital" javaType="Hospital"
-            select="com.neusoft.tijian.mapper.HospitalMapper.getHospitalById" column="hpId"></association>    
+            select="edu.scau.tijian.mapper.HospitalMapper.getHospitalById" column="hpId"></association>
     </resultMap>
 	
 	<select id="listOrdersByUserId" parameterType="Orders" resultMap="ordersResultMap">
 	    select * from orders where userId=#{userId} and state=#{state} order by orderId desc
 	</select>
+
+    <select id="listOrdersWithHospitalByUserByState" parameterType="Orders" resultMap="ordersResultMap">
+        SELECT *
+        FROM orders
+        WHERE userId=#{userId} AND state=#{state}
+        ORDER BY orderDate DESC
+    </select>
+
 </mapper>    
