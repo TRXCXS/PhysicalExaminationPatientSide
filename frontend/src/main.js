@@ -1,9 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(ElementPlus).mount('#app')
 
 router.beforeEach(function(to,from,next){  //这个函数会在路由跳转之前执行
 
