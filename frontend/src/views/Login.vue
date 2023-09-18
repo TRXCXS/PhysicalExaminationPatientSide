@@ -165,6 +165,7 @@ export default {
                         let u = res.data;
 
                         if (u != '') {
+                            setSessionStorage('users', u);
                             router.push('/index');
                         } else {
                             ElMessage({
