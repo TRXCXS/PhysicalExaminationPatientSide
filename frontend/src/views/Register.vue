@@ -12,12 +12,12 @@
             <tr>
                 <td>手机号码</td>
                 <td><input type="text" v-model="users.userId" placeholder="请输入手机号码" @blur="isExists"></td>
-                <td><button>发送验证码</button></td>
+                <!-- <td><button>发送验证码</button></td> -->
             </tr>
-            <tr>
+            <!-- <tr>
                 <td>验证码</td>
                 <td><input type="text" v-model="users.code" placeholder="请输入验证码"></td>
-            </tr>
+            </tr> -->
             <tr>
                 <td>真实姓名</td>
                 <td><input type="text" v-model="users.realName" placeholder="真实姓名便于查看体检报告"></td>
