@@ -75,7 +75,12 @@ export default {
         const state = reactive({
             users: {
                 userId: '',
-                password: ''
+                password: '',
+                // birthday: '',
+                // identityCard: '',
+                // realName: '',
+                // sex: 1,
+                // userType: 1
             },
             radio: 1,//选择登录方式
             //短信登录需要的数据

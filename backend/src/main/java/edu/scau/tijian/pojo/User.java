@@ -1,10 +1,9 @@
 package edu.scau.tijian.pojo;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
 public class User {
     private String userId;
     private String password;
