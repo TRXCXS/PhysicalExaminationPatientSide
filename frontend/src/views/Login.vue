@@ -27,14 +27,14 @@
 
                 <div style="display: flex;"
                     v-if="radio == 2">
-                    <input v-model="code"
+                    <input v-model="note.code"
                         style="width: 50%;"
                         placeholder="输入短信验证码">
                     <el-button color="#70B0BC"
                         style="color:#FFF"
                         :disabled="note.second > 0"
                         @click="sendMessage">
-                        {{ note.second > 0 ? (note.second + '秒后可以再次发送') : '发送验证码' }}
+                        {{ note.second > 0 ? ('请等待'+note.second+'秒' ) : '发送验证码' }}
                     </el-button>
                 </div>
             </div>
@@ -84,7 +84,7 @@ export default {
                 times: 0,//发送短信的次数
                 second: 0, //再发送需要等待的秒数
                 waitSecond: 60,//默认每次需要等待60s
-                timer,//计时器
+                timer:null,//计时器
             }
         });
 
@@ -123,14 +123,15 @@ export default {
                     console.log(err)
                 })
             //开启倒计时    
-            state.note.timer && clearTimeout(state.note.timer)
+            state.note.timer && clearInterval(state.note.timer)
             state.note.second = state.note.waitSecond;
-            state.note.timer = setTimeout(() => {
+            state.note.timer = setInterval(() => {
+                console.log(state.note.second)
                 if (state.note.second > 0) {
                     state.note.second--;
                 } else {
                     state.note.second = 0;
-
+                    state.note.timer && clearInterval(state.note.timer)
                 }
             }, 1000)
             state.note.times++;
