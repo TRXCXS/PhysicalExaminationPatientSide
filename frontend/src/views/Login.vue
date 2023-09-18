@@ -126,7 +126,7 @@ export default {
             state.note.timer && clearInterval(state.note.timer)
             state.note.second = state.note.waitSecond;
             state.note.timer = setInterval(() => {
-                console.log(state.note.second)
+                //console.log(state.note.second)
                 if (state.note.second > 0) {
                     state.note.second--;
                 } else {
