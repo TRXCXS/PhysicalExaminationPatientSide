@@ -221,6 +221,10 @@ export default {
                         //放入浏览器端的session数据存储域
                         setSessionStorage('users', u);
                         router.push('/index');
+                        ElMessage({
+                            type: 'success',
+                            message: '登录成功'
+                        })
                     } else {
                         alert('手机号或者密码错误');
                     }
