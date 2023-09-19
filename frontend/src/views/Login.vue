@@ -34,7 +34,7 @@
                         style="color:#FFF"
                         :disabled="note.second > 0"
                         @click="sendMessage">
-                        {{ note.second > 0 ? ('请等待'+note.second+'秒' ) : '发送验证码' }}
+                        {{ note.second > 0 ? ('请等待' + note.second + '秒') : '发送验证码' }}
                     </el-button>
                 </div>
             </div>
@@ -89,17 +89,58 @@ export default {
                 times: 0,//发送短信的次数
                 second: 0, //再发送需要等待的秒数
                 waitSecond: 60,//默认每次需要等待60s
-                timer:null,//计时器
+                timer: null,//计时器
             }
         });
 
         function login() {
-            if (state.radio == 1) {
-                //密码登录
-                passwordlogin();
-            } else {
-                //短信验证码登录
-                codeLogin();
+            //用户id的非空校验
+            if (state.users.userId == '') {
+                ElMessage({
+                    type: 'error',
+                    message: '手机号码不能为空'
+                })
+                return;
+            }
+            //查看用户id是否存在
+            if (state.users.userId) {
+                axios.post('user/user-exists', state.users)
+                    .then(res => {
+                        if (res.data == 'NO') {
+                            //用户不存在
+                            ElMessage({
+                                type: 'error',
+                                message: '不存在该用户，请先注册'
+                            })
+                            return;
+                        } else {
+                            //用户存在
+                            if (state.radio == 1) {
+                                //密码登录
+                                if (state.users.password == '') {
+                                    ElMessage({
+                                        type: 'error',
+                                        message: '密码不能为空'
+                                    })
+                                    return;
+                                }
+                                passwordlogin();
+                            } else {
+                                //短信验证码登录
+                                if (state.note.code == '') {
+                                    ElMessage({
+                                        type: 'error',
+                                        message: '验证码不能为空'
+                                    })
+                                    return;
+                                }
+                                codeLogin();
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        return;
+                    })
             }
         }
         //发送短信
@@ -111,53 +152,71 @@ export default {
                     message: '手机号码不能为空'
                 })
                 return;
+            } else {
+                axios.post('user/user-exists', state.users)
+                    .then(res => {
+                        if (res.data == 'NO') {
+                            //用户不存在
+                            ElMessage({
+                                type: 'error',
+                                message: '不存在该用户，请先注册'
+                            })
+                            return;
+                        } else {
+                            //用户存在
+                            //发送短信
+                            axios.get('user/sendCode?phoneNumber=' + state.users.userId)
+                                .then(res => {
+                                    ElMessage({
+                                        type: 'success',
+                                        message: '发送短信成功,请耐心等待'
+                                    })
+                                })
+                                .catch(err => {
+                                    ElMessage({
+                                        type: 'error',
+                                        message: '发送短信失败,请稍后再试'
+                                    })
+                                    console.log(err)
+                                })
+                            //开启倒计时    
+                            state.note.timer && clearInterval(state.note.timer)
+                            state.note.second = state.note.waitSecond;
+                            state.note.timer = setInterval(() => {
+                                //console.log(state.note.second)
+                                if (state.note.second > 0) {
+                                    state.note.second--;
+                                } else {
+                                    state.note.second = 0;
+                                    state.note.timer && clearInterval(state.note.timer)
+                                }
+                            }, 1000)
+                            state.note.times++;
+                        }
+                    })
+                    .catch(err => {
+                        return;
+                    })
             }
-            //发送短信
-            axios.get('user/sendCode?phoneNumber=' + state.users.userId)
-                .then(res => {
-                    ElMessage({
-                        type: 'success',
-                        message: '发送短信成功,请耐心等待'
-                    })
-                })
-                .catch(err => {
-                    ElMessage({
-                        type: 'error',
-                        message: '发送短信失败,请稍后再试'
-                    })
-                    console.log(err)
-                })
-            //开启倒计时    
-            state.note.timer && clearInterval(state.note.timer)
-            state.note.second = state.note.waitSecond;
-            state.note.timer = setInterval(() => {
-                //console.log(state.note.second)
-                if (state.note.second > 0) {
-                    state.note.second--;
-                } else {
-                    state.note.second = 0;
-                    state.note.timer && clearInterval(state.note.timer)
-                }
-            }, 1000)
-            state.note.times++;
+
         }
         //验证码登录
         function codeLogin() {
             //数据的非空校验
-            if (state.users.userId == '') {
-                ElMessage({
-                    type: 'error',
-                    message: '手机号码不能为空'
-                })
-                return;
-            }
-            if (state.note.code == '') {
-                ElMessage({
-                    type: 'error',
-                    message: '验证码不能为空'
-                })
-                return;
-            }
+            // if (state.users.userId == '') {
+            //     ElMessage({
+            //         type: 'error',
+            //         message: '手机号码不能为空'
+            //     })
+            //     return;
+            // }
+            // if (state.note.code == '') {
+            //     ElMessage({
+            //         type: 'error',
+            //         message: '验证码不能为空'
+            //     })
+            //     return;
+            // }
 
             if (state.note.times > 0) {
                 //发送过短信
@@ -195,19 +254,19 @@ export default {
         }
         //定义需要的函数
         function passwordlogin() {
-            console.log(state.users.userId + "," + state.users.password)
+            //console.log(state.users.userId + "," + state.users.password)
 
             //1.数据的非空校验
-            if (state.users.userId == '') {
-                alert('手机号码不能为空');
-                return;
-            }
+            // if (state.users.userId == '') {
+            //     alert('手机号码不能为空');
+            //     return;
+            // }
 
-            if (state.users.password == '') {
-                alert('密码不能为空');
-                return;
-            }
-            console.log(state.users)
+            // if (state.users.password == '') {
+            //     alert('密码不能为空');
+            //     return;
+            // }
+            //console.log(state.users)
 
             //2.访问服务端接口，获取用户信息
             axios.post('user/login', state.users)
@@ -217,7 +276,7 @@ export default {
                     let u = response.data;
 
                     if (u != '') {
-                        console.log('111111111111' + u);
+                        //console.log('111111111111' + u);
                         //放入浏览器端的session数据存储域
                         setSessionStorage('users', u);
                         router.push('/index');
@@ -226,7 +285,10 @@ export default {
                             message: '登录成功'
                         })
                     } else {
-                        alert('手机号或者密码错误');
+                        ElMessage({
+                            type: 'error',
+                            message: '手机号或者密码错误'
+                        })
                     }
 
 
