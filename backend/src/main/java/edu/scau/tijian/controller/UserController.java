@@ -6,6 +6,8 @@ import edu.scau.tijian.pojo.User;
 import edu.scau.tijian.service.AliyunSmsService;
 import edu.scau.tijian.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ public class UserController {
     private final UserService userService;
     @Autowired
     private final AliyunSmsService aliyunSmsService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("/hello")
     public String hello() {

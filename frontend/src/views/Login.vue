@@ -88,7 +88,7 @@ export default {
                 code: '',//用户输入的验证码
                 times: 0,//发送短信的次数
                 second: 0, //再发送需要等待的秒数
-                waitSecond: 60,//默认每次需要等待60s
+                waitSecond: 6,//默认每次需要等待60s
                 timer: null,//计时器
             }
         });

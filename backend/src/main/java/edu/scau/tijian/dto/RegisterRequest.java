@@ -11,4 +11,10 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
     private User user;
     private Integer code;
+
+    @Override
+    public String toString() {
+        return user.toString() + code + '\n';
+    }
+
 }

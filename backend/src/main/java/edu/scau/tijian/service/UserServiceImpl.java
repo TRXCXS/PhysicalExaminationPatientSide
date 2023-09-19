@@ -9,6 +9,8 @@ import edu.scau.tijian.repository.PhoneCodePairRepository;
 import edu.scau.tijian.service.UserService;
 import edu.scau.tijian.utils.SHA256;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     @Autowired
     private final PhoneCodePairRepository phoneCodePairRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public User login(User user) throws Exception {
@@ -56,6 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer registerWithCode(RegisterRequest registerRequest) throws Exception {
         User user = registerRequest.getUser();
+        LOGGER.info(user.getPassword());
         String phone = registerRequest.getUser().getUserId();
         boolean codeExists = phoneCodePairRepository.findById(phone).isPresent();
         if (!codeExists) return 0;
