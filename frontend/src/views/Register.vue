@@ -115,7 +115,7 @@ export default {
                 code: '',//用户输入的验证码
                 times: 0,//发送短信的次数
                 second: 0, //再发送需要等待的秒数
-                waitSecond: 60,//默认每次需要等待60s
+                waitSecond: 10,//默认每次需要等待60s
                 timer: null,//计时器
             },
             confirmPassword: ''
@@ -171,7 +171,7 @@ export default {
                     user: state.users,
                     code: state.note.code
                 }
-                axios.post('user/register', obj)
+                axios.post('user/registerWithCode', obj)
                     .then((response) => {
                         //拿到响应数据之后
                         // console.log(response.data)
