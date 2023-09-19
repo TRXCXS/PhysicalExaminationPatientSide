@@ -80,7 +80,6 @@ export default {
             identityCard:'',
             birthday:'',
             userType:'1',
-            code:''
           },
            confirmPassword:'' 
         });
@@ -122,10 +121,6 @@ export default {
           }
           if(state.users.realName==''){
             alert('真实姓名不能为空');
-            return;
-          }
-          if(state.users.code==''){
-            alert('验证码不能为空');
             return;
           }
           if(state.users.password!=state.confirmPassword){

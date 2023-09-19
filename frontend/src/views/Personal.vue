@@ -24,7 +24,7 @@
                         <i class="fa fa-user-plus"></i>
                         <p>我的预约</p>
                     </div>
-                    <div class="right" onclick="location.href='appointmentlist.html'">
+                    <div class="right" @click="toAppointmentList">
                         <i class="fa fa-angle-right"></i>
                     </div>
                 </li>
@@ -97,17 +97,23 @@ export default {
         function out(){
             removeLocalStorage('users');
             router.push('/login')
+        }  
+        
+        function toAppointmentList(){
+            router.push('/appointmentList')
         }
 
-          //把数据和函数暴露出去，不然，html访问不到
-          return{
+        //把数据和函数暴露出去，不然，html访问不到
+        return{
           ...toRefs(state),
-          out
+          out,
+          toAppointmentList
         }
 
+      
   },
   components:{
-    Footer
+    Footer,
   } 
 
 }
