@@ -22,7 +22,6 @@ public class AliyunSmsService {
     private PhoneCodePairRepository phoneCodePairRepository;
     private static Logger LOGGER = LoggerFactory.getLogger(AliyunSmsService.class);
 
-
     public String sendAndSaveSmsCode(String phoneNumber) throws ExecutionException, InterruptedException {
         // Generate a 6-digit random number
         Integer code = 100000 + new Random(new Random().nextInt()).nextInt(900000);

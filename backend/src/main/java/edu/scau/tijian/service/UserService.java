@@ -1,6 +1,7 @@
 package edu.scau.tijian.service;
 
 import edu.scau.tijian.dto.LoginWithCodeRequest;
+import edu.scau.tijian.dto.RegisterRequest;
 import edu.scau.tijian.pojo.User;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,6 @@ public interface UserService {
     Integer saveUser(User user) throws Exception;
 
     User loginWithCode(LoginWithCodeRequest loginWithCodeRequest);
+
+    Integer registerWithCode(RegisterRequest registerRequest) throws Exception;
 }

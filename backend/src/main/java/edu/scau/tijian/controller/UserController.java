@@ -1,6 +1,7 @@
 package edu.scau.tijian.controller;
 
 import edu.scau.tijian.dto.LoginWithCodeRequest;
+import edu.scau.tijian.dto.RegisterRequest;
 import edu.scau.tijian.pojo.User;
 import edu.scau.tijian.service.AliyunSmsService;
 import edu.scau.tijian.service.UserService;
@@ -38,6 +39,11 @@ public class UserController {
     @PostMapping("/register")
     public String saveUser(@RequestBody User user) throws Exception {
         return userService.saveUser(user) == 1 ? "Success" : "Failure";
+    }
+
+    @PostMapping("/registerWithCode")
+    public String registerWithCode(@RequestBody RegisterRequest registerRequest) throws Exception {
+        return userService.registerWithCode(registerRequest) == 1 ? "Success" : "Failure";
     }
 
     @GetMapping("/sendCode")

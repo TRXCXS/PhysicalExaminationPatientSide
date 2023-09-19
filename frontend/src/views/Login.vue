@@ -75,7 +75,7 @@ export default {
         const state = reactive({
             users: {
                 userId: '',
-                password: '',
+                password: ''
                 // birthday: '',
                 // identityCard: '',
                 // realName: '',
